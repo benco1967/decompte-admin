@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Field, Label, Input, A } from "../style/styles";
 
+axios.defaults.headers.common["x-api-key"] =
+  "5E8mftCnJ92ttL71HKepv5XjgumUufxc5Y9We6n1";
+
 export class CsvLoader extends Component {
   constructor(props) {
     super(props);
