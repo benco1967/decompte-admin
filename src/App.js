@@ -24,7 +24,7 @@ class App extends Component {
     return (
       <div>
         <H1>
-          <div>Ordre Siphonique</div>
+          <div>Ordre Sifonique</div>
           <div> - </div>
           <div>admin</div>
         </H1>
