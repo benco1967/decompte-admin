@@ -18,13 +18,17 @@ export class Code extends Component {
     const result = await axios.get(
       "https://ipw21gnfgd.execute-api.eu-west-1.amazonaws.com/dev/users"
     );
+    this.inputs.users = [];
     const users = result.data.map(user => user.pseudo).sort();
-    console.log(JSON.stringify(users, null, 2));
+    console.log(users);
     this.setState({ users });
   }
+  componentDidUpdate(prevProps, prevState, snapshot) {}
 
   inputs = { users: [] };
+
   send = async () => {
+    console.log(this.inputs.users.map(input => input && input.name));
     const label = this.inputs.label.value;
     const points = +this.inputs.points.value;
     const players = this.inputs.users.reduce((result, input) => {
@@ -37,7 +41,6 @@ export class Code extends Component {
       }
       return result;
     }, []);
-
     if (label && points > 0) {
       console.log(`send ${label} ${points} ${players}`);
       this.inputs.button.disabled = true;
@@ -67,6 +70,29 @@ export class Code extends Component {
     }
     setTimeout(() => this.setState({ message: "" }), 5000);
   };
+
+  renderUsers() {
+    this.inputs.users = [];
+    return this.state.users !== null && this.state.users.length ? (
+      this.state.users.map(
+        pseudo =>
+          (
+            <div key={pseudo}>
+              <Input
+                id={pseudo}
+                name={pseudo}
+                ref={input =>
+                  this.inputs.users.push(input)
+                }
+                type="checkbox"
+              />
+              <label htmlFor={pseudo}>{pseudo}</label>
+            </div>
+          )
+    ) : (
+      <div>Aucun pseudo</div>
+    );
+  }
   render({ match } = this.props) {
     return (
       <div>
@@ -97,22 +123,8 @@ export class Code extends Component {
               ? `${this.state.users.length} Participants`
               : `Aucun participant disponible`}
           </Label>
-          {this.state.users !== null && this.state.users.length ? (
-            this.state.users.map(pseudo => (
-              <div key={pseudo}>
-                <Input
-                  id={pseudo}
-                  name={pseudo}
-                  ref={input => this.inputs.users.push(input)}
-                  type="checkbox"
-                />
-                <label htmlFor={pseudo}>{pseudo}</label>
-              </div>
-            ))
-          ) : (
-            <div>Aucun pseudo</div>
-          )}
         </Field>
+        {this.renderUsers()}
         <Button ref={input => (this.inputs.button = input)} onClick={this.send}>
           Enregistrer
         </Button>
