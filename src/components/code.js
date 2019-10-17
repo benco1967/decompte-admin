@@ -74,21 +74,17 @@ export class Code extends Component {
   renderUsers() {
     this.inputs.users = [];
     return this.state.users !== null && this.state.users.length ? (
-      this.state.users.map(
-        pseudo =>
-          (
-            <div key={pseudo}>
-              <Input
-                id={pseudo}
-                name={pseudo}
-                ref={input =>
-                  this.inputs.users.push(input)
-                }
-                type="checkbox"
-              />
-              <label htmlFor={pseudo}>{pseudo}</label>
-            </div>
-          )
+      this.state.users.map(pseudo => (
+        <div key={pseudo}>
+          <Input
+            id={pseudo}
+            name={pseudo}
+            ref={input => this.inputs.users.push(input)}
+            type="checkbox"
+          />
+          <label htmlFor={pseudo}>{pseudo}</label>
+        </div>
+      ))
     ) : (
       <div>Aucun pseudo</div>
     );
