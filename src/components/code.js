@@ -50,6 +50,13 @@ export class Code extends Component {
         console.log(JSON.stringify(result));
 
         this.setState({ code: result.data.code });
+        this.inputs.label.value = "";
+        this.inputs.points.value = "";
+        this.inputs.users.forEach(input => {
+          if (input && input.checked) {
+            input.checked = false;
+          }
+        });
       } catch (e) {
         console.log(JSON.stringify(e));
         this.setState({ message: e.response.data.message });
